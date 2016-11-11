@@ -9,12 +9,11 @@ services:
     command: "rails s -b 0.0.0.0"
     ports:
       - "3000:3000"
-    expose:
-      - "3000"
     working_dir: /var/www/pinpoint_dmp
     links:
       - db
       - redis
+      - elasticsearch
   # data:
   #   container_name: data
   #   image: debian
@@ -49,3 +48,9 @@ services:
     image: redis
     ports:
       - "6379:6379"
+  elasticsearch:
+    container_name: elasticsearch
+    restart: always
+    image: elasticsearch
+    ports:
+      - "9200:9200"
