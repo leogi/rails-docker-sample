@@ -1,0 +1,44 @@
+version: '2'
+services:
+  app:
+    container_name: pinpoint_dmp
+    restart: always
+    image: rails-4.1.6
+    volumes:
+      - /Users/macbook_041/Projects/pinpoint_dmp:/var/www/pinpoint_dmp
+    command: "rails s -b 0.0.0.0"
+    ports:
+      - "3000:3000"
+    expose:
+      - "3000"
+    working_dir: /var/www/pinpoint_dmp
+    links:
+      - db
+  # data:
+  #   container_name: data
+  #   image: debian
+  #   volumes:
+  #     - .docker/mysql:/var/lib/mysql
+  db:
+    container_name: mariadb
+    restart: always
+    image: mariadb
+    # volumes:
+    #   - .docker/mysql:/var/lib/mysql
+    expose:
+      - "3306"
+    environment:
+      MYSQL_PASSWORD: docker
+      MYSQL_ROOT_PASSWORD: docker
+      MYSQL_USER: root
+  nginx:
+    container_name: nginx
+    restart: always
+    image: nginx
+    volumes:
+      - .nginx/sites:/etc/nginx/conf.d
+      - /Users/macbook_041/Projects/pinpoint_dmp:/var/www/pinpoint_dmp
+    ports:
+      - "80:80"
+    links:
+      - app
