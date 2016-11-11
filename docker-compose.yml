@@ -14,6 +14,7 @@ services:
     working_dir: /var/www/pinpoint_dmp
     links:
       - db
+      - redis
   # data:
   #   container_name: data
   #   image: debian
@@ -42,3 +43,9 @@ services:
       - "80:80"
     links:
       - app
+  redis:
+    container_name: redis
+    restart: always
+    image: redis
+    ports:
+      - "6379:6379"
